@@ -20,9 +20,32 @@
   <main>
     <section id="intro">
       <h2>Professional Self-Assessment</h2>
-      <p>Welcome! This portfolio highlights my work in software design, algorithms & data structures, and databases,
-         with a focus on secure, maintainable solutions.</p>
+      <div id="readme-content">Loading content…</div>
     </section>
+
+    <script>
+      // Fetch README.md and render its markdown as HTML
+      fetch('README.md')
+        .then(response => response.text())
+        .then(text => {
+          // Convert Markdown to HTML quickly using GitHub's API or basic regex
+          // Here we use the GitHub API for better formatting:
+          return fetch("https://api.github.com/markdown", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: text })
+          });
+        })
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('readme-content').innerHTML = html;
+        })
+        .catch(err => {
+          document.getElementById('readme-content').innerText =
+            "Failed to load professional self-assessment.";
+          console.error(err);
+        });
+    </script>
 
     <section id="artifacts">
       <h2>Artifacts & Narratives</h2>
